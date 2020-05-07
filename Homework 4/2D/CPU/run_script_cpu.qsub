@@ -1,0 +1,27 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=10:00:00
+#SBATCH --tasks=100
+#SBATCH --job-name=sw_2d_CPU
+#SBATCH --output=outputCPU.o%j
+#SBATCH -p shortq
+
+NX=400
+DT=0.002
+LX=10.0
+TFINAL=0.2
+for j in {2..10};
+do
+	for i in {1..20};
+	do
+		dt=$(bc <<< "scale = 15; $DT / $i")
+		mpirun -np $((j*j)) ./sw_2d_mpi $((NX*i)) $dt $LX $TFINAL
+	done
+done
+
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

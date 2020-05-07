@@ -1,0 +1,15 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=00:10:00
+#SBATCH --tasks=1
+#SBATCH --job-name=cuda
+#SBATCH --output=output.o%j
+#SBATCH -p gpuq
+
+./add
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

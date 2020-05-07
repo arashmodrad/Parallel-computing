@@ -1,0 +1,17 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+module load slurm 
+module load gcc/6.4.0
+module load mpich
+module load openmpi/gcc-6/1.10.3
+module load python/intel/3.5
+module load cuda91/toolkit

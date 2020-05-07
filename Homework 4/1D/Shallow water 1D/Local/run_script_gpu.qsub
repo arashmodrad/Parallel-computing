@@ -1,0 +1,21 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=10:00:00
+#SBATCH --tasks=1
+#SBATCH --job-name=local_sw_2d
+#SBATCH --output=Loc_output.o%j
+#SBATCH -p gpuq
+
+NX=1000000
+DT=0.0000008
+LX=10.0
+TFINAL=0.2
+Threads=1024
+
+./sw_1d_template $NX $DT $LX $TFINAL $Threads
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

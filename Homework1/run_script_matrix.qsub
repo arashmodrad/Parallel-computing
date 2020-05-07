@@ -1,0 +1,21 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=12:00:00
+#SBATCH --tasks=1
+#SBATCH --job-name=matrix
+#SBATCH --output=matrix.o%j
+
+
+
+source /etc/profile
+source ~/.bashrc
+
+for i in 128 256 512 1024 2048 4096; do
+    mpiexec -np 1 matrix $i; 
+done
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

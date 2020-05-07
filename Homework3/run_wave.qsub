@@ -1,0 +1,21 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=12:00:00
+#SBATCH --tasks=64
+#SBATCH --job-name=shallow
+#SBATCH --output=shallowweek.o%j
+
+counter=0
+rm -f sw_2d_mpi.dat #remove file if it exists
+for i in 4 16 64; 
+do
+  let counter+=2
+  mpirun -np $i  ./sw_2d_mpi $((counter*4000)) 0.002 $((100*counter)) 0.5;
+done
+
+
+status=$?
+if [ $status -ne 0 ]; then
+  exit $status
+fi

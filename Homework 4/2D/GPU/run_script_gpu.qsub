@@ -1,0 +1,24 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=10:00:00
+#SBATCH --tasks=1
+#SBATCH --job-name=sw_2d_GPU
+#SBATCH --output=outputGPU.o%j
+#SBATCH -p gpuq
+
+NX=200
+DT=0.004
+LX=10.0
+TFINAL=0.2
+for i in {1..40}; 
+do
+  dt=$(bc <<< "scale = 15; $DT / $i")
+  ./sw_2d $((i*NX)) $dt $LX $TFINAL 
+done
+
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

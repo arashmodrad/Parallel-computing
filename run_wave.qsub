@@ -1,0 +1,20 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=12:00:00
+#SBATCH --tasks=80
+#SBATCH --job-name=wave
+#SBATCH --output=wave.o%j
+
+
+rm -f cannon_alg.dat #remove file if it exists
+for i in 60 70 80; 
+do
+  mpirun -np $i  ./wave $((i*10000)) 0.000001 1;
+done
+
+
+status=$?
+if [ $status -ne 0 ]; then
+  exit $status
+fi

@@ -1,0 +1,20 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=12:00:00
+#SBATCH --tasks=4
+#SBATCH --job-name=cannon_alg
+#SBATCH --output=cannon_alg.o%j
+
+
+rm -f cannon_alg.dat #remove file if it exists
+
+for i in 4 16 256 1024; 
+do
+  mpirun -np 4  ./cannon_alg $i;
+done
+
+status=$?
+if [ $status -ne 0 ]; then
+  exit $status
+fi

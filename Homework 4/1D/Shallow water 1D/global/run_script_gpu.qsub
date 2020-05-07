@@ -1,0 +1,28 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=012:00:00
+#SBATCH --tasks=1
+#SBATCH --job-name=sw_1d
+#SBATCH --output=1Dout.o%j
+#SBATCH -p gpuq
+
+NX=10000
+DT=0.00008
+LX=10.0
+TFINAL=0.2
+rm -f sw1d_cuda_final.dat #remove file if it exists
+rm -f sw1d_cuda_init.dat #remove file if it exists
+for j in {1..10};
+	do
+	for i in {1..128}; 
+		do
+			dt=$(bc <<< "scale = 15; $DT / $j")
+			./sw_1d_template $((j*NX)) $dt $LX $TFINAL $((i*8))
+	done
+done
+
+status=$?
+if [ $status -ne 0 ]; then
+    exit $status
+fi

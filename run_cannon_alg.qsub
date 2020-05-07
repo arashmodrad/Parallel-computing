@@ -1,0 +1,21 @@
+#!/bin/bash
+###
+###
+#SBATCH --time=12:00:00
+#SBATCH --tasks=16
+#SBATCH --job-name=cannon_alg
+#SBATCH --output=cannon.o%j
+#SBATCH --exclusive
+#SBATCH --contiguous
+
+rm -f cannon_alg.dat #remove file if it exists
+
+for i in {3..3} # 7..12
+do
+  mpirun -np 16 ./cannon_serial $((2**i)) >> cannon_alg.dat
+done
+
+status=$?
+if [ $status -ne 0 ]; then
+  exit $status
+fi
